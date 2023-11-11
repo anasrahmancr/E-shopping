@@ -3,24 +3,24 @@ import bcrypt from "bcrypt";
 import { generateToken } from "../utils/jwt.js";
 import Catalog from "../model/Catalog.js";
 
-// ********User Login*********
-
+// User Login 
 const userLogin = async (req, res) => {
   try {
     const { userName, password } = req.body;
-    console.log("password => ", password, "userNmae=>", userName);
 
     if (!userName || !password) {
       return res
         .status(400)
         .json({ success: false, message: "Fill all the fields" });
     }
+
     const user = await User_Cred.findOne({ userName: userName });
     if (!user) {
       return res
         .status(409)
         .json({ success: false, message: "User not found" });
     }
+    // Decrypt the password
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
@@ -28,7 +28,7 @@ const userLogin = async (req, res) => {
         .status(401)
         .json({ success: false, message: "Incorrect Password" });
     }
-
+    // Set Token in cookies
     generateToken(user._id, user.userName).then((token)=>{
       res.cookie("user_token", token, { httpOnly: true });
       return res
@@ -42,17 +42,11 @@ const userLogin = async (req, res) => {
   }
 };
 
-// ********User Register*********
-
+// User Register
 const userRegister = async (req, res) => {
   try {
     const {
-      userName,
-      customerName,
-      gender,
-      preferredCategory,
-      password,
-    } = req.body;
+      userName, customerName, gender, preferredCategory, password} = req.body;
     
     if (!userName || !customerName || !password) {
       return res
@@ -67,7 +61,7 @@ const userRegister = async (req, res) => {
         .status(409)
         .json({ success: false, message: "Email already exists" });
     }
-
+    // Encrypt the password
     const hashedPassword = await bcrypt.hash(password, 12);
     const newUser = new User_Cred({
       userName: userName,
@@ -76,9 +70,8 @@ const userRegister = async (req, res) => {
       gender: gender,
       preferredCategory: preferredCategory,
     });
-
     await newUser.save();
-   
+    // Set Token in the Cookie
     generateToken(newUser._id, newUser.userName).then((token)=>{
       res.cookie("user_token", token, { httpOnly: true });
       return res
@@ -92,6 +85,7 @@ const userRegister = async (req, res) => {
   }
 };
 
+// Home Page 
 const homePage = async(req, res) => {
   try{
     const userName = req.params.username;
@@ -115,11 +109,12 @@ const homePage = async(req, res) => {
     res.status(200).json({success: true, randomRecommendations});
   } catch(error){
     res.status(500).json({success: false, message: "Internal server error"});
-    
   }
 }
 
+// Logout 
 const logout = (req, res) => {
+  // Removing the tokens
   return res.clearCookie('user_token').status(200).json({success: true, message: "User Logged out"})
 };
 
