@@ -7,7 +7,7 @@ import Catalog from "../model/Catalog.js";
 const userLogin = async (req, res) => {
   try {
     const { userName, password } = req.body;
-
+    console.log(userName, password);
     if (!userName || !password) {
       return res
         .status(400)
@@ -15,6 +15,7 @@ const userLogin = async (req, res) => {
     }
 
     const user = await User_Cred.findOne({ userName: userName });
+    console.log(user);
     if (!user) {
       return res
         .status(409)
@@ -30,10 +31,11 @@ const userLogin = async (req, res) => {
     }
     // Set Token in cookies
     generateToken(user._id, user.userName).then((token)=>{
+      console.log(token);
       res.cookie("user_token", token, { httpOnly: true });
       return res
       .status(200)
-      .json({ success: true, message: "Login Successful"});
+      .json({ success: true, message: "Login Successful",token});
     })
   } catch (error) {
     return res
@@ -114,6 +116,7 @@ const homePage = async(req, res) => {
 
 // Logout 
 const logout = (req, res) => {
+  console.log("logouttt");
   // Removing the tokens
   return res.clearCookie('user_token').status(200).json({success: true, message: "User Logged out"})
 };

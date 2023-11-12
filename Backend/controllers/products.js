@@ -5,6 +5,7 @@ const searchProducts = (req, res) => {
     return new Promise((resolve, reject) => {
         const { keyword, price_min, price_max } = req.query;
 
+        console.log(keyword, price_min, price_max);
         const searchQuery = {
             $or: [
                 { product_description: { $regex: `.*${keyword}.*`, $options: 'i' } },
@@ -23,7 +24,7 @@ const searchProducts = (req, res) => {
             .sort({ Rank: 1 }) 
             .limit(10) 
             .then((searchResults) => {
-                res.json(searchResults);
+                res.json({success: true, searchResults});
                 resolve(searchResults);  
             })
             .catch((error) => {
@@ -33,4 +34,10 @@ const searchProducts = (req, res) => {
     });
 };
 
-export {searchProducts};
+// distinctCategories
+const distinctCategories = async(req, res) => {
+    const categories = await Catalog.distinct('Product_category',{Product_category: {$ne: ""}});
+    res.status(200).json({success: true, categories});
+}
+
+export {searchProducts, distinctCategories};
