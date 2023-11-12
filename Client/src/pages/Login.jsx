@@ -4,17 +4,27 @@ import { Link, useNavigate } from "react-router-dom";
 
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-const handleSubmit = () => {
+const handleSubmit = (e) => {
+  try {
+    e.preventDefault();
     const api = customAxios();
-    api.post('/user/user-login').then(response => {
-      if(response.success){
-        navigate('/home');
-      }
+    api
+      .post('/user/user-login', {
+        userName,
+        password
+      },{withCredentials: true})
+      .then((response) => {
+        if (response.data.success) {
+          navigate("/home");
+        }
     })
+  } catch(error){
+    console.log(error.message);
+  }
 }
 
   return (
@@ -32,11 +42,11 @@ const handleSubmit = () => {
                   <div className="relative">
                     <input
                       autoComplete="off"
-                      id="email"
-                      name="email"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      type="text"
+                      id="userName"
+                      name="userName"
+                      value={userName}
+                      onChange={(e) => setUserName(e.target.value)}
+                      type="email"
                       className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
                       placeholder="Email address"
                     />
@@ -65,7 +75,7 @@ const handleSubmit = () => {
                       Password
                     </label>
                   </div>
-                  <div className="relative">
+                  <div className="relative text-center">
                     <button
                       type="submit"
                       className="bg-blue-500 text-white rounded-md px-2 py-1"
@@ -73,7 +83,7 @@ const handleSubmit = () => {
                       Login
                     </button>
                   </div>
-                  <div className="relative">
+                  <div className="relative text-center">
                     <p>New user ? </p>
                     <Link to='/register'
                       type="submit"
