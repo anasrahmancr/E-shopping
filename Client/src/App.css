@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+.product-description{
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 0.5px;
+}
+
+.add-to-cart{
+    background-color: #09584e;
+    font-weight: 600;
+}
+
+.line {
+    display: inline-block;
+    border-top: 1px solid black;
+    width: 39%; 
+    margin: 0 10px; 
+  }
+
+  .text {
+    display: inline-block;
+  }

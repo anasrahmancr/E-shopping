@@ -20,14 +20,14 @@ const Header = () => {
   }
   return (
     <div>
-      <header className="flex justify-between m-4">
-        <div className="header-left flex">
+      <header className="flex justify-between p-6 bg-lime-800">
+        <div className="header-left flex text-white font-medium">
           <div className="pr-8 pl-6">HOME</div>
           <div>ABOUT</div>
         </div>
-        <div className="header-right flex">
+        <div className="header-right flex  text-white font-medium">
           <div className="pr-8">
-            <button onClick={handleLogout}>Logout</button>
+            <button onClick={handleLogout}>LOGOUT</button>
           </div>
         </div>
       </header>

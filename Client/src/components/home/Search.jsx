@@ -34,7 +34,7 @@ const Search = ({onSearch}) => {
   //   };
 
   return (
-    <div className="flex mb-8 mt-4 bg-gray-200 p-5">
+    <div className="flex mb-8 bg-gray-200 p-5">
       <div>
         <label className="ml-5 mr-3">Search a product: </label>
         <input
@@ -63,7 +63,7 @@ const Search = ({onSearch}) => {
           onChange={(e) => setPrice_max(e.target.value)}
           className="p-2 rounded-md"
         />
-        <button onClick={handleSearch}>Search</button>
+        <button className="bg-green-800 text-white mx-7 px-4 py-2 rounded-lg font-medium " onClick={handleSearch}>Search</button>
       </div>
       {/* <button onClick={resetFilters}>Reset Filters</button> */}
     </div>

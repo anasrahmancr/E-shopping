@@ -12,7 +12,7 @@ const Home = () => {
     setFilteredProducts(filteredProducts);
   }
   return (
-    <div className='p-5'>
+    <div className='overflow-hidden'>
       <Header/>
       <Search onSearch={handleSearch}/>
       <Content searchProducts={filteredProducts}/>
