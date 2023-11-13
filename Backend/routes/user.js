@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/user-login', userLogin); 
 router.post('/user-register', userRegister);
 // product recommendations Api
-router.get('/home/:username',auth, homePage);
+router.get('/home/:userName',auth, homePage);
 
 router.get('/logout', auth, logout);
 

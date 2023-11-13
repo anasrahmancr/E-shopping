@@ -33,9 +33,10 @@ const userLogin = async (req, res) => {
     generateToken(user._id, user.userName).then((token)=>{
       console.log(token);
       res.cookie("user_token", token, { httpOnly: true });
+      res.cookie("username", userName);
       return res
       .status(200)
-      .json({ success: true, message: "Login Successful",token});
+      .json({ success: true, message: "Login Successful"});
     })
   } catch (error) {
     return res
@@ -76,6 +77,7 @@ const userRegister = async (req, res) => {
     // Set Token in the Cookie
     generateToken(newUser._id, newUser.userName).then((token)=>{
       res.cookie("user_token", token, { httpOnly: true });
+      res.cookie("username", userName);
       return res
       .status(200)
       .json({ success: true, message: "Registered Successfully" });
@@ -90,8 +92,8 @@ const userRegister = async (req, res) => {
 // Home Page 
 const homePage = async(req, res) => {
   try{
-    const userName = req.params.username;
-
+    const userName = req.params.userName;
+    console.log(userName);
     const user = await User_Cred.findOne({userName: userName});
 
     if(!user){
@@ -102,13 +104,13 @@ const homePage = async(req, res) => {
       const recommendations = await Catalog.find({Product_category: user.preferredCategory})
       .sort({Rank:1})
       .limit(10);
-      return res.status(200).json({success: true, recommendations})
+      return res.status(200).json({success: true, recommendations: recommendations})
     }
 
     const randomRecommendations = await Catalog.aggregate([
       {$sample: {size: 10}}
     ])
-    res.status(200).json({success: true, randomRecommendations});
+    res.status(200).json({success: true, recommendations: randomRecommendations});
   } catch(error){
     res.status(500).json({success: false, message: "Internal server error"});
   }
@@ -116,7 +118,6 @@ const homePage = async(req, res) => {
 
 // Logout 
 const logout = (req, res) => {
-  console.log("logouttt");
   // Removing the tokens
   return res.clearCookie('user_token').status(200).json({success: true, message: "User Logged out"})
 };

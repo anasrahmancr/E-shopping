@@ -1,7 +1,7 @@
 import { verifyToken } from "../utils/jwt.js";
 
 const auth = async(req, res, next) => {
-    const token = req.cookies.user_token;
+    const token = await req.cookies.user_token;
     console.log(token);
     // proceed only if token is present
     if(!token){
