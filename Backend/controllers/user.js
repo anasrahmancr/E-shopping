@@ -93,9 +93,9 @@ const userRegister = async (req, res) => {
 const homePage = async(req, res) => {
   try{
     const userName = req.params.userName;
-    console.log(userName);
+    console.log(userName,"homepage");
     const user = await User_Cred.findOne({userName: userName});
-
+    console.log(user.userName,"mmmmmmmmmmmmm");
     if(!user){
       res.status(404).json({success: false, message: "user not found"});
     } 
