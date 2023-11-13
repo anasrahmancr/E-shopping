@@ -3,8 +3,8 @@ import customAxios from "../../services/axiosCall";
 
 const Search = ({onSearch}) => {
   const [keyword, setKeyword] = useState("");
-  const [price_min, setPrice_min] = useState(0);
-  const [price_max, setPrice_max] = useState(0);
+  const [price_min, setPrice_min] = useState('');
+  const [price_max, setPrice_max] = useState('');
 
   const handleSearch = (e) => {
     try {
@@ -34,24 +34,26 @@ const Search = ({onSearch}) => {
   //   };
 
   return (
-    <div className="flex mb-8 mt-4 ">
+    <div className="flex mb-8 mt-4 bg-gray-200 p-5">
       <div>
         <label className="ml-5 mr-3">Search a product: </label>
         <input
           type="text"
-          placeholder="Search by product name or brand"
+          placeholder="Search by name or brand"
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
+          className="p-2 rounded-md"
         />
       </div>
 
       <div>
-        <label className="mr-3">Minimum Price:</label>
+        <label className="mr-3 ml-3">Minimum Price:</label>
         <input
           type="number"
           placeholder="Min"
           value={price_min}
           onChange={(e) => setPrice_min(e.target.value)}
+          className="p-2 rounded-md"
         />
         <label className="ml-6 mr-3">Maximum Price:</label>
         <input
@@ -59,6 +61,7 @@ const Search = ({onSearch}) => {
           placeholder="Max"
           value={price_max}
           onChange={(e) => setPrice_max(e.target.value)}
+          className="p-2 rounded-md"
         />
         <button onClick={handleSearch}>Search</button>
       </div>

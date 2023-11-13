@@ -4,7 +4,7 @@ const Product = ({ products }) => {
   return (
   <div className='mb-10'>
   {products.data.length>0 && (
-    <div className='text-2xl text-center'>{products.heading}</div>
+    <div className='text-2xl font-bold text-center mb-10'>{products.heading}</div>
   )}
     <div className="flex flex-wrap -mx-4">
       {products.data.map((product, index) => (

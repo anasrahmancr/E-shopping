@@ -6,14 +6,11 @@ const Content = ({ searchProducts }) => {
   const [recommendedProducts, setRecommendedProducts] = useState([]);
 
   useEffect(() => {
-    console.log("indise");
     const cookies = document.cookie.split("; ");
-    console.log(cookies);
     const username_cookie = cookies.find((cookie) =>
       cookie.startsWith("username=")
     );
     const userName = username_cookie ? username_cookie.split("=")[1].replace('%40', '@') : null;
-    console.log(userName);
     const api = customAxios();
     api.get(`/user/home/${userName}`,{withCredentials: true}).then(response=>{
       if(response.data.success){
