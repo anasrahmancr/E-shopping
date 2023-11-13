@@ -2,10 +2,8 @@ import { verifyToken } from "../utils/jwt.js";
 
 const auth = async(req, res, next) => {
     const token = await req.cookies.user_token;
-    console.log(token);
     // proceed only if token is present
     if(!token){
-        console.log("not token");
         return res.status(403).json({message: "User not authorized"});
     } 
     try {

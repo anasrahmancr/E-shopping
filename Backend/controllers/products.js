@@ -5,7 +5,6 @@ const searchProducts = (req, res) => {
     return new Promise((resolve, reject) => {
         const { keyword, price_min, price_max } = req.query;
 
-        console.log(keyword, price_min, price_max);
         const searchQuery = {
             $or: [
                 { product_description: { $regex: `.*${keyword}.*`, $options: 'i' } },
