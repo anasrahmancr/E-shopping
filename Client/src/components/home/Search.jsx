@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import customAxios from "../../services/axiosCall";
 
-const Search = () => {
-  const [filteredProducts, setFilteredProducts] = useState([]);
+const Search = ({onSearch}) => {
   const [keyword, setKeyword] = useState("");
   const [price_min, setPrice_min] = useState(0);
   const [price_max, setPrice_max] = useState(0);
@@ -19,7 +18,7 @@ const Search = () => {
         )
         .then((response) => {
           if (response.data.success) {
-            setFilteredProducts(response.data.searchResults);
+            onSearch(response.data.searchResults);
             console.log(response.data.searchResults);
           }
         });
@@ -35,8 +34,9 @@ const Search = () => {
   //   };
 
   return (
-    <div>
+    <div className="flex mb-8 mt-4 ">
       <div>
+        <label className="ml-5 mr-3">Search a product: </label>
         <input
           type="text"
           placeholder="Search by product name or brand"
@@ -46,13 +46,14 @@ const Search = () => {
       </div>
 
       <div>
-        <label>Price Range:</label>
+        <label className="mr-3">Minimum Price:</label>
         <input
           type="number"
           placeholder="Min"
           value={price_min}
           onChange={(e) => setPrice_min(e.target.value)}
         />
+        <label className="ml-6 mr-3">Maximum Price:</label>
         <input
           type="number"
           placeholder="Max"
@@ -62,13 +63,6 @@ const Search = () => {
         <button onClick={handleSearch}>Search</button>
       </div>
       {/* <button onClick={resetFilters}>Reset Filters</button> */}
-      <ul>
-        {filteredProducts.map((product) => (
-          <li key={product.product_id}>
-            {product.product_description} -- {product.brand_name}
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };
